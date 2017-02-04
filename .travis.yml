@@ -12,8 +12,7 @@ install:
   - curl -s http://getcomposer.org/installer | php
   - php composer.phar install --dev --no-interaction
 script:
-  - mkdir -p build/logs
-  - php vendor/bin/codecept -c codeception.yml run
+  - php vendor/bin/codecept run unit -c codeception.yml --coverage-xml
 
 after_success:
   - travis_retry php vendor/bin/coveralls
