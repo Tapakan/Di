@@ -13,7 +13,7 @@ install:
   - php composer.phar install --dev --no-interaction
 script:
   - mkdir -p build/logs
-  - php vendor/bin/codecept -c codeception.yml
+  - php vendor/bin/codecept -c codeception.yml run
 
 after_success:
   - travis_retry php vendor/bin/coveralls
