@@ -1,11 +1,13 @@
 {
   "name"       : "tapakan/di",
-  "description": "PHP Dependency Injection pattern",
+  "description": "PHP Dependency Injection container",
   "version"    : "0.0.1",
   "keywords"   : [
     "di",
     "dependency injection",
-    "patterns"
+    "inversion of control",
+    "ioc",
+    "dic"
   ],
   "homepage"   : "https://github.com/Tapakan/di.git",
   "license"    : "MIT",
@@ -32,7 +34,8 @@
   "autoload"   : {
     "psr-4": {
       "Tapakan\\Di\\"           : "src",
-      "Tapakan\\Di\\Exception\\": "src/Exception"
+      "Tapakan\\Di\\Exception\\": "src/Exception",
+      "Tapakan\\Di\\Tests\\"    : "tests"
     }
   },
   "extra"      : {
