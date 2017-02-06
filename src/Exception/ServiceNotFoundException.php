@@ -1,6 +1,6 @@
 <?php
 /**
- * InvalidParamException
+ * ServiceNotFoundException
  * @version     0.0.1
  * @license     http://mit-license.org/
  * @author      Tapakan https://github.com/Tapakan
@@ -10,8 +10,9 @@
 namespace Tapakan\Di\Exception;
 
 /**
- * Class InvalidParamException
+ * Class ServiceNotFoundException
  */
-class InvalidParamException extends Exception
+class ServiceNotFoundException extends Exception
 {
+
 }
