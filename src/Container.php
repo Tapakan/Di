@@ -10,56 +10,110 @@
 namespace Tapakan\Di;
 
 use Tapakan\Di\Exception\InvalidParamException;
+use Tapakan\Di\Exception\ServiceNotFoundException;
 
 /**
  * Class Container
  */
-class Container
+class Container implements ContainerInterface
 {
+    const THROW_EXCEPTION = 0;
+
+    /**
+     * @var \ArrayObject
+     */
+    protected $config;
+
     /**
      * @var array
      */
-    private $dependencies = [];
+    protected $services = [];
 
     /**
-     * @param string $key
+     * Container constructor.
+     *
+     * @param array|null $config
+     */
+    public function __construct(array $config = [])
+    {
+        $this->config = new \ArrayObject($config);
+    }
+
+    /**
+     * @param string|integer $id
+     * @param mixed          $service
      *
      * @return mixed
-     * @throws InvalidParamException Throws exception if
+     * @throws InvalidParamException
      */
-    public function get($key)
+    public function set($id, $service)
     {
-        if ($this->has($key)) {
-            return $this->dependencies[$key];
+        $id = $this->prepareId($id);
+
+        $this->services[$id] = $service;
+
+        if (null === $service) {
+            unset($this->services[$id]);
         }
 
-        throw new InvalidParamException("Unknown dependency");
+        return $service;
+    }
+
+    /**
+     * Return a service.
+     *
+     * @param string|mixed $id
+     *
+     * @return mixed
+     * @throws ServiceNotFoundException
+     *
+     */
+    public function get($id)
+    {
+        if (isset($this->services[$id])) {
+            return $this->services[$id];
+        }
+
+        throw new ServiceNotFoundException("Service not found - {$id}");
     }
 
     /**
      * Check if dependency exists in container
      *
-     * @param string|integer|mixed $key
+     * @param string|integer|mixed $id
      *
      * @return bool
      */
-    public function has($key)
+    public function has($id)
     {
-        return isset($this->dependencies[$key]) || array_key_exists($key, $this->dependencies);
+        return isset($this->services[$this->prepareId($id)]);
     }
 
     /**
-     * @param string|integer $key
-     * @param mixed          $value
-     *
-     * @throws InvalidParamException
+     * @return int
      */
-    public function set($key, $value)
+    public function countServices()
     {
-        if (!is_scalar($key)) {
-            throw new InvalidParamException('Invalid key type');
-        }
+        return count($this->services);
+    }
 
-        $this->dependencies[$key] = $value;
+    public function getParameter($id)
+    {
+        // TODO: Implement getParameter() method.
+    }
+
+    public function setParameter($id)
+    {
+        // TODO: Implement setParameter() method.
+    }
+
+    /**
+     * @param mixed $id
+     *
+     * @return string
+     */
+    protected function prepareId($id)
+    {
+        return (string)$id;
     }
 }
